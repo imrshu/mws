@@ -9,7 +9,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    return `http://192.168.0.106:${port}/data/restaurants.json`;
   }
 
   /**
@@ -153,6 +153,22 @@ class DBHelper {
     return (`/img/${restaurant.photograph}`);
   }
 
+  /** 
+   * This function takes in a COLOR, and then creates a new marker
+   * icon of that color. The icon will be 21 px wide by 34 high, have an origin
+   * of 0, 0 and be anchored at 10, 34).
+   */
+  static makeMarkerIcon(markerColor) {
+    const markerImage = new google.maps.MarkerImage(
+      'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+      '|40|_|%E2%80%A2',
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0, 0),
+      new google.maps.Point(10, 34),
+      new google.maps.Size(21,34));
+    return markerImage;
+  }
+
   /**
    * Map marker for a restaurant.
    */
@@ -160,11 +176,11 @@ class DBHelper {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
       title: restaurant.name,
+      icon: DBHelper.makeMarkerIcon('ec630f'),
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
       animation: google.maps.Animation.DROP}
     );
     return marker;
   }
-
 }
