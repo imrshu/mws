@@ -1,71 +1,85 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+  <!-- This tells the brower how to download read this page -->
   <meta charset="utf-8">
+  <!-- Defines the viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Title of the page -->
   <title>Restaurant Info</title>
 </head>
-
 <body class="inside">
-  <!-- Beginning header -->
+
+  <!-- Header -->
   <header>
-    <!-- Beginning nav -->
+
+    <!-- Nav -->
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-    <!-- Beginning breadcrumb -->
+      <div class="row">
+        <div class="col-12">
+          <h1><a href="/">Restaurant Reviews</a></h1>
+        </div>
+      </div>
+    </nav> <!-- // Nav Ends -->
+
+    <!-- Breadcrumb -->
     <ul id="breadcrumb" >
       <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
-  </header>
-  <!-- End header -->
+    </ul> <!-- // Breadcrumb Ends -->
 
-  <!-- Beginning main -->
+  </header> <!-- // Header Ends -->
+
+  <!-- Main -->
   <main id="maincontent">
-    <!-- Beginning map -->
+
+    <!-- Google Map -->
     <section id="map-container">
       <div id="map"></div>
-    </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
+    </section> <!-- // Google Map Ends -->
+
+    <!-- Restaurant Info -->
     <section id="restaurant-container">
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
       <p id="restaurant-address"></p>
       <table id="restaurant-hours"></table>
-    </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
+    </section> <!-- // Restaurant Info Ends -->
+
+    <!-- Reviews -->
     <section id="reviews-container">
-      <ul id="reviews-list"></ul>
-    </section>
-    <!-- End reviews -->
-  </main>
-  <!-- End main -->
+      <div class="row">
+        <div class="col-12" id="reviews-container-header"></div>
+      </div>
+      <ul class="row" id="reviews-list"></ul>
+    </section> <!-- // Reviews Ends -->
 
-  <!-- Beginning footer -->
+  </main> <!-- // Main Ends -->
+
+  <!-- Back to top -->
+  <button onclick="backToTop();" id="back_to_top" title="Go back to top">Top</button>
+
+  <!-- Footer -->
   <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
+    <div class="row">
+      <div class="col-12">
+        Copyright (c) 2018 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+      </div>
+    </div>
+  </footer> <!-- // Footer Ends -->
 
-  <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
+  <!-- Styles for google map -->
+  <script type="application/javascript" charset="utf-8" src="js/mapStyles.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYSFYSRi_nC33A9nBIhYrK7cM5rapdIoY&libraries=places&callback=initMap"></script>
-  <!-- End scripts -->
 
 </body>
-
 </html>
