@@ -12,6 +12,7 @@ window.initMap = () => {
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
+        styles: styles,
         scrollwheel: false
       });
       fillBreadcrumb();
@@ -95,9 +96,10 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  const container_header = document.getElementById('reviews-container-header');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  container_header.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -106,10 +108,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
-  container.appendChild(ul);
+  reviews.forEach(review => ul.appendChild(createReviewHTML(review)));
 }
 
 /**
@@ -117,6 +116,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
@@ -161,3 +161,29 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+ * When the user scrolls down from the top of the document
+ * show back to top button.
+ */
+window.onscroll = () => {
+  let btn = document.getElementById("back_to_top");
+  btn.style.display = (document.documentElement.scrollTop > 50) ? "block" : "none";
+
+  // Show breadcrumb at the top
+  let breadcrumb = document.getElementById('breadcrumb');
+  breadcrumb.style.position = 'fixed';
+  breadcrumb.style.top = '0';
+  breadcrumb.style.width = '100%';
+  breadcrumb.style.zIndex = '1000';
+  
+  // Shift breadcrumb back to its original state
+  if (document.documentElement.scrollTop === 0)
+    breadcrumb.style.position = 'relative';  
+}
+
+/**
+ * When the user clicks on the button
+ * scroll to the top of the document.
+ */
+backToTop = () => document.documentElement.scrollTop = 0
