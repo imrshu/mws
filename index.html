@@ -1,48 +1,87 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+  <!-- This tells the brower how to download read this page -->
   <meta charset="utf-8">
+  <!-- Defines the viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+  <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Title of the page -->
   <title>Restaurant Reviews</title>
 </head>
-
 <body>
+
+  <!-- Header -->
   <header>
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <div class="row">
+        <div class="col-12">
+          <h1><a href="/">Restaurant Reviews</a></h1>
+        </div>
+      </div>
     </nav>
-  </header>
+  </header> <!-- // Header Ends  -->
 
+  <!-- Main -->
   <main id="maincontent">
+    
+    <!-- Google Map -->
     <section id="map-container">
-      <div id="map"></div>
-    </section>
+      <div class="row">
+        <div class="col-12">
+          <div id="map"></div>
+        </div>
+      </div>
+    </section> <!-- // Google Map Ends -->
+    
+    <!-- Filter Options -->
     <section>
       <div class="filter-options">
-        <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-          <option value="all">All Neighborhoods</option>
-        </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-          <option value="all">All Cuisines</option>
-        </select>
+        <div class="row">
+          <div class="col-12">
+            <h2>Filter Results</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+              <option value="all">All Neighborhoods</option>
+            </select>
+            <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+              <option value="all">All Cuisines</option>
+            </select>        
+          </div>
+        </div>
       </div>
-      <ul id="restaurants-list"></ul>
-    </section>
-  </main>
+    </section> <!-- // Filter Options Ends -->
 
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+    <!-- Restaurants List -->
+    <section>
+      <ul class="row" id="restaurants-list"></ul>
+    </section> <!-- // Restaurants List Ends -->
+  
+  </main> <!-- // Main Ends -->
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="row">
+      <div class="col-12">
+        Copyright (c) 2018 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+      </div>
+    </div>
+  </footer> <!-- // Footer Ends -->
+
+  <!-- Helper Js -->
+  <script charset="utf-8" src="js/dbhelper.js"></script>
+  <!-- Styles for google map -->
+  <script charset="utf-8" src="js/mapStyles.js"></script>
+  <!-- Main Js for index page -->
+  <script charset="utf-8" src="js/main.js"></script>
+  <!-- Google maps javascript API loaded ASYNCHRONOUSLY -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYSFYSRi_nC33A9nBIhYrK7cM5rapdIoY&libraries=places&callback=initMap"></script>
 
-
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-
 </body>
-
 </html>
