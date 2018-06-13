@@ -169,6 +169,11 @@ getParameterByName = (name, url) => {
 window.onscroll = () => {
   let btn = document.getElementById("back_to_top");
   btn.style.display = (document.documentElement.scrollTop > 50) ? "block" : "none";
+  
+  let map_container = document.getElementById('map-container');
+  if (document.documentElement.scrollTop > 50) {
+    map_container.style.top = '120px';
+  }
 
   // Show breadcrumb at the top
   let breadcrumb = document.getElementById('breadcrumb');
@@ -178,8 +183,10 @@ window.onscroll = () => {
   breadcrumb.style.zIndex = '1000';
   
   // Shift breadcrumb back to its original state
-  if (document.documentElement.scrollTop === 0)
-    breadcrumb.style.position = 'relative';  
+  if (document.documentElement.scrollTop === 0) {
+    breadcrumb.style.position = 'relative';
+    map_container.style.top = '120px';
+  }
 }
 
 /**
