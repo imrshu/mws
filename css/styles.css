@@ -192,7 +192,6 @@ nav h1 a {
 }
 #restaurants-list li {
   background-color: #fff;
-  border: 1px solid #ccc;
   box-shadow: 1px 4px 5px #c3baba;
   border-radius: 10px 10px 10px 10px;
   font-family: Arial,sans-serif;
@@ -212,10 +211,10 @@ nav h1 a {
   min-width: 100%;
 }
 #restaurants-list li h1 {
-  color: #f18200;
+  color: #621c7f;
   font-family: Arial,sans-serif;
-  font-size: 14pt;
-  font-weight: 200;
+  font-size: 1.1em;
+  font-weight: 300;
   letter-spacing: 0;
   line-height: 1.3;
   margin: 20px 0 10px;
@@ -223,16 +222,17 @@ nav h1 a {
 }
 #restaurants-list p {
   margin: 0;
-  font-size: 11pt;
+  font-size: 0.9em;
 }
 #restaurants-list li a {
-  background-color: orange;
+  background-color: #0e4e85;
   border-bottom: 3px solid #eee;
+  border-radius: 12px 12px 12px 12px;
   color: #fff;
   display: inline-block;
   font-size: 10pt;
   margin: 15px 0 0;
-  padding: 8px 30px 10px;
+  padding: 10px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
@@ -276,7 +276,8 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 100%;
+  width: 100%;
+  max-width: 100%;
 }
 #restaurant-cuisine {
   background-color: #1b3c58;
@@ -303,16 +304,11 @@ nav h1 a {
   padding: 10px 10px;
   width: 100%;
 }
-#reviews-container {
-  padding: 2px 5px;
-}
-#reviews-container-header {
-  text-align: center;
-}
 #reviews-container h2 {
   color: #f58500;
   font-size: 2em;
   font-weight: 300;
+  text-align: center;
 }
 #reviews-list {
   list-style: none;
@@ -351,9 +347,43 @@ nav h1 a {
   background-color: #ce7a18;
   color: white;
   cursor: pointer;
-  padding: 15px 15px;
+  padding: 20px 20px;
   border-radius: 50%;
 }
 #back_to_top:hover {
   background-color: #776652;
 }
+
+/* ====================== Media Queries ====================== */
+@media screen and (min-width: 600px) {
+  .inside #map-container {
+    width: 45%;
+    height: 500px;
+    position: fixed;
+    right: 20px;
+    top: 120px;
+  }
+  .inside #map {
+    height: 100%;
+  }
+  .inside #restaurant-container {
+    width: 50%;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+  .inside #restaurant-img {
+    max-width: 100%;
+  }
+  .inside #reviews-container {
+    width: 50%;
+  }
+  .inside #reviews-list li {
+    position: relative;
+    margin-bottom: 5px;
+    /* width: 85%; */
+  }
+  .inside #footer {
+    width: 50%;
+  }
+    
+} 
