@@ -175,7 +175,7 @@ class DBHelper {
   static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
-      title: restaurant.name,
+      title: `${restaurant.name} Restaurant`,
       icon: DBHelper.makeMarkerIcon('ec630f'),
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
