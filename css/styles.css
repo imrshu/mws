@@ -40,8 +40,10 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+select:focus {
+  outline: 2px solid yellow;
+}
 #maincontent {
-  /* background-color: #f3f3f3; */
   min-height: 100%;
 }
 #footer {
@@ -52,6 +54,10 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   padding: 25px;
   text-align: center;
   text-transform: uppercase;
+}
+#footer a:focus {
+  outline: 2px solid yellow;
+  color: white;
 }
 
 /* ====================== Grid Layout ====================== */
@@ -114,6 +120,10 @@ nav h1 a {
   letter-spacing: 0.4em;
   text-transform: uppercase;
 }
+nav h1 a:focus, nav h1 a:hover {
+  outline: 2px solid yellow;
+  color: whitesmoke;
+}
 #breadcrumb {
   padding: 10px 40px 16px;
   list-style: none;
@@ -139,7 +149,14 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-  color: #0275d8;
+  color: #1f6199;
+  min-width: 48px;
+  min-width: 48px;
+  padding: 10px 10px;
+  text-decoration: none;
+}
+#breadcrumb li a:focus {
+  outline: 2px solid yellow;
   text-decoration: none;
 }
 
@@ -169,6 +186,9 @@ nav h1 a {
   font-weight: normal;
   line-height: 1.2;
   margin: 0 20px;
+}
+.filter-options h2:focus {
+  outline: 2px solid yellow;
 }
 .filter-options select {
   background-color: white;
@@ -237,6 +257,9 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
+#restaurants-list li a:focus {
+  outline: 2px solid yellow;
+}
 
 /* ====================== Restaurant Details ====================== */
 .inside #map-container {
@@ -265,8 +288,11 @@ nav h1 a {
   min-height: 380px;
   padding: 25px 30px;
 }
+#restaurant-container:focus {
+  outline: 2px solid yellow;
+}
 #restaurant-name {
-  color: #f58500;
+  color: #7f4d11;
   font-size: 1.5em;
   font-weight: 300;
   font-family: Arial,sans-serif;
@@ -290,12 +316,21 @@ nav h1 a {
   text-transform: uppercase;
 	width: 100%;
 }
+#restaurant-cuisine:focus {
+  outline: 2px solid yellow;
+}
 #restaurant-address {
   font-size: 1em;
   margin: 10px 0px;
 }
+#restaurant-address:focus {
+  outline: 2px solid yellow;
+}
 #restaurant-hours td {
   color: #666;
+}
+#restaurant-hours:focus {
+  outline: 2px solid yellow;
 }
 #reviews-container {
   border-bottom: 1px solid #d9d9d9;
@@ -304,8 +339,11 @@ nav h1 a {
   padding: 10px 10px;
   width: 100%;
 }
+#reviews-container:focus {
+  outline: 2px solid yellow;
+}
 #reviews-container h2 {
-  color: #f58500;
+  color: #7f4d11;
   font-size: 2em;
   font-weight: 300;
   text-align: center;
@@ -328,6 +366,9 @@ nav h1 a {
   width: 270px;
   flex-grow: 1; 
 }
+#reviews-list li:focus {
+  outline: 2px solid yellow;
+}
 #reviews-list li p {
   font-size: 1.1em;
   margin: 0 0 10px;
@@ -344,14 +385,17 @@ nav h1 a {
   min-width: 48px;
   min-height: 48px;
   border: none;
-  background-color: #ce7a18;
-  color: white;
+  background-color: #774a15;
+  color: #eae6e6;
   cursor: pointer;
   padding: 20px 20px;
   border-radius: 50%;
 }
 #back_to_top:hover {
   background-color: #776652;
+}
+#back_to_top:focus {
+  outline: 1px solid yellow;
 }
 
 /* ====================== Media Queries ====================== */
@@ -380,10 +424,8 @@ nav h1 a {
   .inside #reviews-list li {
     position: relative;
     margin-bottom: 5px;
-    /* width: 85%; */
   }
   .inside #footer {
     width: 50%;
-  }
-    
+  }    
 } 
