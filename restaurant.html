@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!-- This tells the brower how to download read this page -->
   <meta charset="utf-8">
@@ -27,7 +27,7 @@
     </nav> <!-- // Nav Ends -->
 
     <!-- Breadcrumb -->
-    <ul id="breadcrumb" >
+    <ul id="breadcrumb">
       <li><a href="/">Home</a></li>
     </ul> <!-- // Breadcrumb Ends -->
 
@@ -45,9 +45,14 @@
     <section id="restaurant-container">
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
+      <p id="restaurant-cuisine" tabindex="0"></p>
+      <p id="restaurant-address" tabindex="0"></p>
+      <table id="restaurant-hours" tabindex="0">
+        <tr>
+          <th>Working Days</th>
+          <th>Timing</th>
+        </tr>
+      </table>
     </section> <!-- // Restaurant Info Ends -->
 
     <!-- Reviews -->
@@ -60,9 +65,6 @@
 
   </main> <!-- // Main Ends -->
 
-  <!-- Back to top -->
-  <button onclick="backToTop();" id="back_to_top" title="Go back to top">Top</button>
-
   <!-- Footer -->
   <footer id="footer">
     <div class="row">
@@ -72,10 +74,15 @@
     </div>
   </footer> <!-- // Footer Ends -->
 
+  <!-- Back to top -->
+  <button onclick="backToTop();" id="back_to_top" title="Go back to top">Top</button>
+
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Styles for google map -->
   <script type="application/javascript" charset="utf-8" src="js/mapStyles.js"></script>
+  <!-- Back to top button js -->
+  <script charset="utf-8" src="js/backtotop.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
