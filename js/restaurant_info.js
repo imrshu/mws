@@ -50,18 +50,30 @@ fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
+  const container = document.getElementById('restaurant-container');
+  // Sets the tabindex of restaurant-container
+  container.tabIndex = '0';
+  // Sets the aria of restaurant-container
+  container.setAttribute('aria-label',
+   `Details about the ${restaurant.name} Restaurant`);
+
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label',
+   `Full Address of ${restaurant.name} Restaurant is ${restaurant.address}`);  
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
+  image.alt = `${restaurant.name} Restaurant`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.setAttribute('aria-label',
+   `Cuisine of ${restaurant.name} is ${restaurant.cuisine_type}`);
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -85,8 +97,23 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
-    row.appendChild(time);
+    
+    // Check if operating hours include ','
+    if (operatingHours[key].includes(',')) {
+      // Split the time for more accessibility
+      let multiple_time = operatingHours[key].split(',');
+      let first_time = multiple_time[0].split('-');
+      let second_time = multiple_time[1].split('-');
+      time.setAttribute('aria-label', `First Shift Is From ${first_time[0]}
+       To ${first_time[1]} And Second Shift Is From ${second_time[0]} To
+       ${second_time[1]}`);      
+    } else {
+      // Split the time for more accessibility
+      let time_split = operatingHours[key].split('-');
+      time.setAttribute('aria-label', `From ${time_split[0]} To ${time_split[1]}`);      
+    }
 
+    row.appendChild(time);
     hours.appendChild(row);
   }
 }
@@ -96,6 +123,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  // Sets the tabIndex of reviews container
+  container.tabIndex = '0';
+  // Sets the aria of reviews container
+  container.setAttribute('aria-label',
+  `Reviews about the ${self.restaurant.name} restaurant`);
+  // Reviews container header
   const container_header = document.getElementById('reviews-container-header');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -116,21 +149,27 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.tabIndex = '0';
 
   const name = document.createElement('p');
   name.innerHTML = review.name;
+  name.setAttribute('aria-label', `Review By The Customer ${review.name}`);
   li.appendChild(name);
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
+  date.setAttribute('aria-label', `On Date ${reviewsDate(review.date)}`);
   li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute('aria-label', 
+    `${review.name} Gives ${review.rating} Star Rating To This Restaurant`);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.setAttribute('aria-label', `${review.name} Said ${review.comments}`);  
   li.appendChild(comments);
 
   return li;
@@ -141,9 +180,35 @@ createReviewHTML = (review) => {
  */
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
-  const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
-  breadcrumb.appendChild(li);
+
+  // Shortcut for direct access to restaurant details 
+  const details_li = document.createElement('li');
+  const details = document.createElement('a');
+  details.innerHTML = `${restaurant.name} Details`;
+  details.href = '#restaurant-container';
+  details.setAttribute('aria-label',
+   `Jump to details section of ${restaurant.name} Restaurant`);
+  details_li.appendChild(details);
+
+  // Shortcut for direct access to restaurant reviews
+  const reviews_li = document.createElement('li');
+  const reviews = document.createElement('a');
+  reviews.innerHTML = `${restaurant.name} Reviews`;
+  reviews.href = '#reviews-container';
+  reviews.setAttribute('aria-label',
+   `Jump to reviews section of ${restaurant.name} Restaurant`);
+  reviews_li.appendChild(reviews);
+
+  breadcrumb.appendChild(details_li);
+  breadcrumb.appendChild(reviews_li);
+}
+
+/**
+ * Reviews Date Splitting For Accessibility.
+ */
+reviewsDate = (review_date) => {
+  let date = review_date.split(',');
+  return date.join(' ');
 }
 
 /**
@@ -161,36 +226,3 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-
-/**
- * When the user scrolls down from the top of the document
- * show back to top button.
- */
-window.onscroll = () => {
-  let btn = document.getElementById("back_to_top");
-  btn.style.display = (document.documentElement.scrollTop > 50) ? "block" : "none";
-  
-  let map_container = document.getElementById('map-container');
-  if (document.documentElement.scrollTop > 50) {
-    map_container.style.top = '120px';
-  }
-
-  // Show breadcrumb at the top
-  let breadcrumb = document.getElementById('breadcrumb');
-  breadcrumb.style.position = 'fixed';
-  breadcrumb.style.top = '0';
-  breadcrumb.style.width = '100%';
-  breadcrumb.style.zIndex = '1000';
-  
-  // Shift breadcrumb back to its original state
-  if (document.documentElement.scrollTop === 0) {
-    breadcrumb.style.position = 'relative';
-    map_container.style.top = '120px';
-  }
-}
-
-/**
- * When the user clicks on the button
- * scroll to the top of the document.
- */
-backToTop = () => document.documentElement.scrollTop = 0
