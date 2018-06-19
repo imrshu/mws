@@ -5,11 +5,11 @@
 window.onscroll = () => {
 
   if (document.URL.endsWith('/')) {
-    let btn = document.getElementById("back_to_top");
-    btn.style.display = (document.documentElement.scrollTop > 50) ? "block" : "none";
+    let btn = document.getElementById('back-to-top');
+    btn.style.display = (document.documentElement.scrollTop > 50) ? 'block' : 'none';
   } else {
-    let btn = document.getElementById("back_to_top");
-    btn.style.display = (document.documentElement.scrollTop > 50) ? "block" : "none";
+    let btn = document.getElementById('back-to-top');
+    btn.style.display = (document.documentElement.scrollTop > 50) ? 'block' : 'none';
     
     let map_container = document.getElementById('map-container');
     // Set the map container on restaurant detail page
