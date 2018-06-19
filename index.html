@@ -27,7 +27,6 @@
 
   <!-- Main -->
   <main id="maincontent">
-    
     <!-- Google Map -->
     <section id="map-container">
       <div class="row">
@@ -36,7 +35,6 @@
         </div>
       </div>
     </section> <!-- // Google Map Ends -->
-    
     <!-- Filter Options -->
     <section>
       <div class="filter-options">
@@ -52,17 +50,15 @@
             </select>
             <select id="cuisines-select" aria-label="cuisines" name="cuisines" onchange="updateRestaurants()">
               <option value="all">All Cuisines</option>
-            </select>        
+            </select>
           </div>
         </div>
       </div>
     </section> <!-- // Filter Options Ends -->
-
     <!-- Restaurants List -->
     <section>
       <ul class="row" id="restaurants-list"></ul>
     </section> <!-- // Restaurants List Ends -->
-  
   </main> <!-- // Main Ends -->
 
   <!-- Footer -->
@@ -78,13 +74,13 @@
   <button onclick="backToTop();" id="back_to_top" title="Go back to top">Top</button>
   
   <!-- Helper Js -->
-  <script charset="utf-8" src="js/dbhelper.js"></script>
+  <script src="js/dbhelper.js"></script>
   <!-- Styles for google map -->
-  <script charset="utf-8" src="js/mapStyles.js"></script>
+  <script src="js/mapStyles.js"></script>
   <!-- Back to top button js -->
-  <script charset="utf-8" src="js/backtotop.js"></script>
+  <script src="js/backtotop.js"></script>
   <!-- Main Js for index page -->
-  <script charset="utf-8" src="js/main.js"></script>
+  <script src="js/main.js"></script>
   <!-- Google maps javascript API loaded ASYNCHRONOUSLY -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYSFYSRi_nC33A9nBIhYrK7cM5rapdIoY&libraries=places&callback=initMap"></script>
 
