@@ -1,16 +1,20 @@
-const CACHE_NAME = 'restaurant_reviews_v11';
+// Restaurant reviews Cache name
+const CACHE_NAME = 'restaurant_reviews_v1';
 
+/**
+ * Service worker install event
+ * for initial caching in browser
+ */
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll([
-                '/',
-                'restaurant.html',
                 'css/styles.css',
                 'js/dbhelper.js',
                 'js/main.js',
                 'js/restaurant_info.js',
                 'js/mapStyles.js',
+                'js/backtotop.js',
                 'img/1.jpg',
                 'img/2.jpg',
                 'img/3.jpg',
@@ -26,6 +30,11 @@ self.addEventListener('install', (event) => {
     );
 });
 
+
+/**
+ * Service worker activate event
+ * for deleting old cache in browser.
+ */
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -37,15 +46,24 @@ self.addEventListener('activate', (event) => {
     )
 });
 
+
+/**
+ * Service worker fetch event
+ * for offline page availability
+ */
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request).then((resp) => {
-            if (resp) return resp;
-            return fetch(event.request, {
-                mode: 'no-cors'
-            }).then((response) => {
-                if (response.status === 404) return new Response('No Results Found');
-                return response;
+            // Return cache response if matches
+            // else fetch request from network
+            // and put it in cache. 
+            return resp || caches.open(CACHE_NAME).then((cache) => {
+                return fetch(event.request).then((resp) => {
+                    // Check if response not found
+                    if (resp.status === 404) return new Response('Not Found');
+                    cache.put(event.request, resp.clone());
+                    return resp;
+              });
             })
         })
     );
