@@ -1,6 +1,7 @@
 let restaurant;
 var map;
 
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -19,7 +20,8 @@ window.initMap = () => {
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
-}
+};
+
 
 /**
  * Get current restaurant from page URL.
@@ -44,7 +46,8 @@ fetchRestaurantFromURL = (callback) => {
       callback(null, restaurant)
     });
   }
-}
+};
+
 
 /**
  * Create restaurant HTML and add it to the webpage
@@ -63,7 +66,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
   address.setAttribute('aria-label',
-   `Full Address of ${restaurant.name} Restaurant is ${restaurant.address}`);  
+   `Full Address of ${restaurant.name} Restaurant is ${restaurant.address}`);
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
@@ -81,7 +84,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
-}
+};
+
 
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
@@ -106,17 +110,18 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
       let second_time = multiple_time[1].split('-');
       time.setAttribute('aria-label', `First Shift Is From ${first_time[0]}
        To ${first_time[1]} And Second Shift Is From ${second_time[0]} To
-       ${second_time[1]}`);      
+       ${second_time[1]}`);
     } else {
       // Split the time for more accessibility
       let time_split = operatingHours[key].split('-');
-      time.setAttribute('aria-label', `From ${time_split[0]} To ${time_split[1]}`);      
+      time.setAttribute('aria-label', `From ${time_split[0]} To ${time_split[1]}`);
     }
 
     row.appendChild(time);
     hours.appendChild(row);
   }
-}
+};
+
 
 /**
  * Create all reviews HTML and add them to the webpage.
@@ -142,7 +147,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   }
   const ul = document.getElementById('reviews-list');
   reviews.forEach(review => ul.appendChild(createReviewHTML(review)));
-}
+};
+
 
 /**
  * Create review HTML and add it to the webpage.
@@ -169,11 +175,12 @@ createReviewHTML = (review) => {
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
-  comments.setAttribute('aria-label', `${review.name} Said ${review.comments}`);  
+  comments.setAttribute('aria-label', `${review.name} Said ${review.comments}`);
   li.appendChild(comments);
 
   return li;
-}
+};
+
 
 /**
  * Add restaurant name to the breadcrumb navigation menu
@@ -201,7 +208,8 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
 
   breadcrumb.appendChild(details_li);
   breadcrumb.appendChild(reviews_li);
-}
+};
+
 
 /**
  * Reviews Date Splitting For Accessibility.
@@ -209,7 +217,8 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
 reviewsDate = (review_date) => {
   let date = review_date.split(',');
   return date.join(' ');
-}
+};
+
 
 /**
  * Get a parameter by name from page URL.
@@ -225,4 +234,4 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+};

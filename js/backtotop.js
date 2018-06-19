@@ -12,6 +12,7 @@ window.onscroll = () => {
     btn.style.display = (document.documentElement.scrollTop > 50) ? "block" : "none";
     
     let map_container = document.getElementById('map-container');
+    // Set the map container on restaurant detail page
     if (document.documentElement.scrollTop > 50) {
       map_container.style.top = '120px';
     }
@@ -29,8 +30,9 @@ window.onscroll = () => {
       map_container.style.top = '120px';
     }
   }
-}
-  
+};
+
+
 /**
   * When the user clicks on the button
   * scroll to the top of the document.
@@ -38,5 +40,4 @@ window.onscroll = () => {
 backToTop = () => {
   document.documentElement.scrollTop = 0;
   document.querySelectorAll('a')[0].focus();
-}
-  
+};

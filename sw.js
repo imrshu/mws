@@ -1,6 +1,7 @@
 // Restaurant reviews Cache name
 const CACHE_NAME = 'restaurant_reviews_v1';
 
+
 /**
  * Service worker install event
  * for initial caching in browser
