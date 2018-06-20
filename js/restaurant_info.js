@@ -1,5 +1,5 @@
 let restaurant;
-var map;
+let map;
 
 
 /**
