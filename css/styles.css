@@ -337,12 +337,11 @@ nav h1 a:hover {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
 }
 
 
-#restaurants-list li h1 {
+#restaurants-list li h3 {
   color: #621c7f;
   font-family: Arial,sans-serif;
   font-size: 1.1em;
@@ -423,7 +422,6 @@ nav h1 a:hover {
 
 #restaurant-name {
   color: #7f4d11;
-  font-size: 1.5em;
   font-weight: 300;
   font-family: Arial,sans-serif;
   font-size: 1.4em;
