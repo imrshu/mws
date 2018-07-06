@@ -89,6 +89,10 @@ window.initMap = () => {
     scrollwheel: false
   });
   updateRestaurants();
+  // Set the title of google map iframe tag
+  google.maps.event.addListenerOnce(map, 'idle', () => {
+    document.getElementsByTagName('iframe')[0].title = 'Google Maps';
+  });
 };
 
 
@@ -158,6 +162,9 @@ createRestaurantHTML = (restaurant) => {
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
+  address.style.whiteSpace = 'nowrap';
+  address.style.overflow = 'hidden';
+  address.style.textOverflow = 'ellipsis';
   li.append(address);
 
   const more = document.createElement('a');
