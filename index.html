@@ -20,7 +20,7 @@
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/dist/styles.min.css">
   <!-- Shortcut Icon for the app -->
   <link rel="shortcut icon" type="image/ico" href="./img/logo/logo.ico">
   <!-- App Icon for apple devices -->
@@ -92,16 +92,8 @@
   <button onclick="backToTop();" id="back-to-top"
    title="Go back to top" aria-label="Go back to top">Top</button>
 
-  <!-- Helper Js -->
-  <script src="js/dbhelper.js"></script>
-  <!-- Styles for google map -->
-  <script src="js/mapStyles.js"></script>
-  <!-- Back to top button js -->
-  <script src="js/backtotop.js"></script>
-  <!-- Main Js for index page -->
-  <script src="js/main.js"></script>
-  <!-- Service Worker Register Js -->
-  <script src="js/swRegister.js"></script>
+  <!-- Main JS -->
+  <script async defer src="js/dist/main.min.js"></script>
   <!-- Google maps javascript API loaded ASYNCHRONOUSLY -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYSFYSRi_nC33A9nBIhYrK7cM5rapdIoY&libraries=places&callback=initMap"></script>
 
