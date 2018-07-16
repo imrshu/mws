@@ -10,12 +10,9 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll([
-                'css/styles.css',
-                'js/dbhelper.js',
-                'js/main.js',
-                'js/restaurant_info.js',
-                'js/mapStyles.js',
-                'js/backtotop.js',
+                'css/dist/styles.min.css',
+                'js/dist/main.min.js',
+                'js/dist/restaurant_info.min.js',
                 'img/1.jpg',
                 'img/2.jpg',
                 'img/3.jpg',
@@ -57,7 +54,7 @@ self.addEventListener('fetch', (event) => {
         caches.match(event.request).then((resp) => {
             // Return cache response if matches
             // else fetch request from network
-            // and put it in cache. 
+            // and put it in cache.
             return resp || caches.open(CACHE_NAME).then((cache) => {
                 return fetch(event.request).then((resp) => {
                     // Check if response not found
