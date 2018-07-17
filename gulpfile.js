@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const cleanCss = require('gulp-clean-css');
+const imagemin = require('gulp-imagemin');
+const pngquant = require('imagemin-pngquant');
 const uglify = require('gulp-uglify-es').default;
 
 
@@ -47,4 +49,14 @@ gulp.task('minifyInfoJS', () => {
     .pipe(concat('restaurant_info.js'))
     .pipe(rename('restaurant_info.min.js'))
     .pipe(gulp.dest('./js/dist'))
+});
+
+gulp.task('compressIMG', () => {
+  gulp.src('img/logo/*.png')
+    .pipe(imagemin({
+      progressive: true,
+      optimizationLevel: 5,
+      use: [pngquant()]
+    }))
+    .pipe(gulp.dest('./img/dist'))
 });
