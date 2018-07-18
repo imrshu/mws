@@ -69,7 +69,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    select.append(option);   
+    select.append(option);
   }
 };
 
@@ -102,7 +102,7 @@ window.initMap = () => {
 updateRestaurants = () => {
   const cuisine = document.getElementById('cuisines-select').value;
   const neighborhood = document.getElementById('neighborhoods-select').value;
-  
+
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
@@ -136,6 +136,7 @@ resetRestaurants = (restaurants) => {
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => ul.append(createRestaurantHTML(restaurant)));
+  progressively.init();
   addMarkersToMap();
 };
 
@@ -147,9 +148,10 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img progressive__img progressive--not-loaded';
   image.alt = `${restaurant.name} Restaurant`;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.dataset.progressive = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = DBHelper.placeholderIMGUrlForRestaurant();
   li.append(image);
 
   const name = document.createElement('h3');
