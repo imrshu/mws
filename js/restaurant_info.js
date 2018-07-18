@@ -73,9 +73,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
    `Full Address of ${restaurant.name} Restaurant is ${restaurant.address}`);
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img progressive__img progressive--not-loaded';
   image.alt = `${restaurant.name} Restaurant`;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.dataset.progressive = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = DBHelper.placeholderIMGUrlForRestaurant();
+  progressively.init();
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -105,7 +107,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
-    
+
     // Check if operating hours include ','
     if (operatingHours[key].includes(',')) {
       // Split the time for more accessibility
@@ -173,7 +175,7 @@ createReviewHTML = (review) => {
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
-  rating.setAttribute('aria-label', 
+  rating.setAttribute('aria-label',
     `${review.name} Gives ${review.rating} Star Rating To This Restaurant`);
   li.appendChild(rating);
 
@@ -192,7 +194,7 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
 
-  // Shortcut for direct access to restaurant details 
+  // Shortcut for direct access to restaurant details
   const details_li = document.createElement('li');
   const details = document.createElement('a');
   details.innerHTML = `${restaurant.name} Details`;
