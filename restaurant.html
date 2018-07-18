@@ -174,6 +174,37 @@
       font-size: 1.1em;
       margin: 0 0 10px;
     }
+    /* ====================== Media Queries ====================== */
+    @media screen and (min-width: 600px) {
+      .inside #map-container {
+        width: 45%;
+        height: 500px;
+        position: fixed;
+        right: 20px;
+        top: 120px;
+      }
+      .inside #map {
+        height: 100%;
+      }
+      .inside #restaurant-container {
+        width: 50%;
+        margin-left: 5px;
+        margin-top: 5px;
+      }
+      .inside #restaurant-img {
+        max-width: 100%;
+      }
+      .inside #reviews-container {
+        width: 50%;
+      }
+      .inside #reviews-list li {
+        position: relative;
+        margin-bottom: 5px;
+      }
+      .inside #footer {
+        width: 50%;
+      }
+    }
   </style>
 </head>
 <body class="inside">
