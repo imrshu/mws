@@ -143,7 +143,15 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.id}.jpg`);
+    return (`/img/${restaurant.id}.webp`);
+  }
+
+  /**
+   * Restaurant image placeholder Img
+   * URL for lazy loading.
+   */
+  static placeholderIMGUrlForRestaurant() {
+    return (`/img/dist/placeholder.png`);
   }
 
   /**
