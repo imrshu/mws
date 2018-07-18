@@ -8,8 +8,12 @@ const uglify = require('gulp-uglify-es').default;
 
 
 // Gulp default task
-gulp.task('default', ['minifyCSS', 'minifyMainJS', 'minifyInfoJS'], () =>
- console.log('Operation successfull'));
+gulp.task('default', ['minifyCSS', 'minifyMainJS', 'minifyInfoJS', 'compressIMG'], () => {
+  gulp.watch('css/styles.css', ['minifyCSS']);
+  gulp.watch(['js/main.js', 'js/dbhelper.js'], ['minifyMainJS']);
+  gulp.watch(['js/restaurant_info.js', 'js/dbhelper.js'], ['minifyInfoJS']);
+  console.log('Operation successfull');
+});
 
 // Gulp task for minify css
 gulp.task('minifyCSS', () => {
@@ -28,6 +32,7 @@ gulp.task('minifyMainJS', () => {
     'js/mapStyles.js',
     'js/backtotop.js',
     'js/main.js',
+    'js/progressively.js'
   ])
     .pipe(uglify())
     .pipe(concat('main.js'))
@@ -44,6 +49,7 @@ gulp.task('minifyInfoJS', () => {
     'js/mapStyles.js',
     'js/backtotop.js',
     'js/restaurant_info.js',
+    'js/progressively.js'
   ])
     .pipe(uglify())
     .pipe(concat('restaurant_info.js'))
