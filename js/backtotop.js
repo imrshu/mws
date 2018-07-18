@@ -10,20 +10,20 @@ window.onscroll = () => {
   } else {
     let btn = document.getElementById('back-to-top');
     btn.style.display = (document.documentElement.scrollTop > 50) ? 'block' : 'none';
-    
+
     let map_container = document.getElementById('map-container');
     // Set the map container on restaurant detail page
     if (document.documentElement.scrollTop > 50) {
       map_container.style.top = '120px';
     }
-  
+
     // Show breadcrumb at the top
     let breadcrumb = document.getElementById('breadcrumb');
     breadcrumb.style.position = 'fixed';
     breadcrumb.style.top = '0';
     breadcrumb.style.width = '100%';
     breadcrumb.style.zIndex = '1000';
-    
+
     // Shift breadcrumb back to its original state
     if (document.documentElement.scrollTop === 0) {
       breadcrumb.style.position = 'relative';
