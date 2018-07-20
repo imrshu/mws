@@ -11,8 +11,8 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll([
                 'css/dist/styles.min.css',
-                'js/dist/main.min.js',
-                'js/dist/restaurant_info.min.js',
+                // 'js/dist/main.min.js',
+                // 'js/dist/restaurant_info.min.js',
                 'img/1.webp',
                 'img/2.webp',
                 'img/3.webp',
