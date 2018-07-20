@@ -11,7 +11,7 @@ var markers = [];
 window.onload = () => {
   fetchNeighborhoods();
   fetchCuisines();
-}
+};
 
 
 /**
@@ -85,7 +85,6 @@ window.initMap = () => {
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: loc,
-    styles: styles,
     scrollwheel: false
   });
   updateRestaurants();
@@ -189,4 +188,10 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     marker.addListener('click', () => window.location.href = marker.url);
     self.markers.push(marker);
   }
+};
+
+
+showMap = () => {
+  let map = document.getElementById('map');
+  map.style.display = (map.style.display === 'none') ? 'block' : 'none';
 };
