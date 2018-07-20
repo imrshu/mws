@@ -13,11 +13,13 @@ window.initMap = () => {
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
-        styles: styles,
         scrollwheel: false
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      // Call createstaticMapImage for create static map
+      createstaticMapImage(self.restaurant);
+      progressively.init();
       // Set the title of google map iframe tag
       google.maps.event.addListenerOnce(self.map, 'idle', () => {
         document.getElementsByTagName('iframe')[0].title = 'Google Maps';
@@ -240,4 +242,56 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+
+/**
+ * Generate static map image
+ * & place current restaurant
+ * marker on the static map.
+ */
+createstaticMapImage = (restaurant) => {
+  // Grab the map container on restaurant info page
+  const container = document.getElementById('map-container');
+  // Create an image element
+  const img = document.createElement('img');
+  // Make image focusable
+  img.tabIndex = 0;
+  // set the class of image
+  img.id = 'static-map';
+  // set the class of image
+  img.className = 'progressive__img progressive--not-loaded';
+  // set the alternate text of the image
+  img.alt = `${restaurant.name} on the google map`;
+  // set the src of image
+  img.src = '/img/dist/placeholder.png';
+  // set the dataprogessive attr of the image
+  // For lazy load the static map image
+  img.dataset.progressive = `https://maps.googleapis.com/maps/api/staticmap?
+  center=${restaurant.latlng.lat},${restaurant.latlng.lng}
+  &zoom=14&size=610x500&format=jpg
+  &markers=color:orange|label:${restaurant.name.slice(0,1)}|
+  ${restaurant.latlng.lat},${restaurant.latlng.lng}
+  &key=AIzaSyAsggoUe5zy3jLXhAo-kYQ8xmgpTi377Ec`;
+  // set the aria label attr of image
+  img.setAttribute('aria-label',
+   `Image of ${restaurant.name} on Google map, However you can click on this image
+   to make the image into full interactive google map`);
+  // set onclick event on the image
+  // For swapping the static map image
+  // Into full interactive google map
+  img.onclick = () => {
+    // Hide the static map image
+    img.style.display = 'none';
+    // grab the google map area
+    let map = document.getElementById('map');
+    // show the google map
+    map.style.display = 'block';
+    // allow focus on google map area
+    map.tabIndex = 0;
+    // Make force focus on google map
+    map.focus();
+  };
+  // Append the image to the map container
+  container.append(img);
 };
