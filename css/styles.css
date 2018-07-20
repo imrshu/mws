@@ -83,7 +83,7 @@ select:focus {
 
 
 #footer {
-  background-color: #1b3c58;
+  background-color: #0c5259;
   color: #fff;
   font-size: 1em;
   letter-spacing: 1px;
@@ -108,8 +108,13 @@ select:focus {
 }
 
 
-.col-6 {
-  width: 50%;
+.col-1 {
+  width: 8.33%;
+}
+
+
+.col-11 {
+  width: 91.66%;
 }
 
 
@@ -122,9 +127,8 @@ select:focus {
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
-  background-color: #1b3c58;
-  padding: 5px 0;
-  text-align:center;
+  background-color: #0c5259;
+  padding: 5px 5px;
 }
 
 
@@ -137,7 +141,7 @@ nav h1 a {
   color: #fff;
   font-size: 14pt;
   font-weight: 200;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
 }
 
@@ -156,7 +160,6 @@ nav h1 a:hover {
   width: 100%;
   margin-top: 2px;
   margin-bottom: 5px;
-  background-color: #ccc;
 }
 
 
