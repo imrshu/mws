@@ -10,7 +10,7 @@
   <!-- Defines the viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Android browser window color -->
-  <meta name="theme-color" content="#1b3c58">
+  <meta name="theme-color" content="#0c5259">
   <!-- IOS browser window color -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <!-- Web App capable -->
@@ -33,7 +33,7 @@
     .filter-options {
       width: 100%;
       padding: 5px 0;
-      background-color: #1b3c58;
+      background-color: #0c5259;
       align-items: center;
     }
     .filter-options h2 {
@@ -112,6 +112,17 @@
     #restaurants-list li a:focus {
       outline: 2px solid yellow;
     }
+    .toggle-map {
+      float: right;
+      padding: 5px 5px;
+      background-color: transparent;
+      border: none;
+    }
+    .toggle-map:hover,
+    .toggle-map:focus {
+      outline: 1px solid yellow;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -120,8 +131,18 @@
   <header>
     <nav>
       <div class="row">
-        <div class="col-12">
+        <div class="col-11">
           <h1><a href="/">Restaurant Reviews</a></h1>
+        </div>
+        <div class="col-1">
+          <button class="toggle-map" onclick="showMap()"
+          aria-label="Toggle google map">
+            <img class="progressive__img progressive--not-loaded"
+             src="/img/dist/placeholder.png"
+             data-progressive="/img/map_icon.webp"
+             style="height: 30px;width: 40px;border-radius: 50%;"
+             alt="Icon For Toggle Google Map">
+          </button>
         </div>
       </div>
     </nav>
@@ -133,7 +154,7 @@
     <section id="map-container">
       <div class="row">
         <div class="col-12">
-          <div id="map" role="application" aria-label="Google Map"></div>
+          <div id="map" role="application" aria-label="Google Map" style="display: none;"></div>
         </div>
       </div>
     </section> <!-- // Google Map Ends -->
