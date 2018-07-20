@@ -99,6 +99,9 @@ select:focus {
 }
 
 
+#footer strong {
+  color: #f5f271;
+}
 
 /* ====================== Grid Layout ====================== */
 .row {
