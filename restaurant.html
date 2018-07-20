@@ -65,7 +65,6 @@
       text-decoration: underline;
     }
     .inside #map-container {
-      background: blue none repeat scroll 0 0;
       width: 100%;
     }
     .inside #map {
@@ -174,6 +173,15 @@
       font-size: 1.1em;
       margin: 0 0 10px;
     }
+    .inside nav h1 {
+      text-align: center;
+    }
+    .inside #static-map:hover {
+      cursor: pointer;
+    }
+    .inside #static-map:focus {
+      outline: 1px solid yellow;
+    }
     /* ====================== Media Queries ====================== */
     @media screen and (min-width: 600px) {
       .inside #map-container {
@@ -230,7 +238,7 @@
   <main id="maincontent">
     <!-- Google Map -->
     <section id="map-container">
-      <div id="map" role="application" aria-label="Google Map"></div>
+      <div id="map" role="application" aria-label="Google Map" style="display: none;"></div>
     </section> <!-- // Google Map Ends -->
 
     <!-- Restaurant Info -->
