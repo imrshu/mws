@@ -10,8 +10,8 @@ const uglify = require('gulp-uglify-es').default;
 // Gulp default task
 gulp.task('default', ['minifyCSS', 'minifyMainJS', 'minifyInfoJS', 'compressIMG'], () => {
   gulp.watch('css/styles.css', ['minifyCSS']);
-  gulp.watch(['js/main.js', 'js/dbhelper.js'], ['minifyMainJS']);
-  gulp.watch(['js/restaurant_info.js', 'js/dbhelper.js'], ['minifyInfoJS']);
+  gulp.watch(['js/main.js', 'js/dbhelper.js', 'js/idb.js'], ['minifyMainJS']);
+  gulp.watch(['js/restaurant_info.js', 'js/dbhelper.js', 'js/idb.js'], ['minifyInfoJS']);
   console.log('Operation successfull');
 });
 
@@ -29,8 +29,9 @@ gulp.task('minifyMainJS', () => {
   gulp.src([
     'js/swRegister.js',
     'js/dbhelper.js',
-    'js/mapStyles.js',
     'js/backtotop.js',
+    'js/idblib.js',
+    'js/idb.js',
     'js/main.js',
     'js/progressively.js'
   ])
@@ -46,8 +47,9 @@ gulp.task('minifyInfoJS', () => {
   gulp.src([
     'js/swRegister.js',
     'js/dbhelper.js',
-    'js/mapStyles.js',
     'js/backtotop.js',
+    'js/idblib.js',
+    'js/idb.js',
     'js/restaurant_info.js',
     'js/progressively.js'
   ])
