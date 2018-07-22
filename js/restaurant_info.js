@@ -34,22 +34,27 @@ window.initMap = () => {
  */
 fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
-    callback(null, self.restaurant)
+    callback(null, self.restaurant);
     return;
   }
-  const id = getParameterByName('id');
+  let id = getParameterByName('id');
   if (!id) { // no id found in URL
-    error = 'No restaurant id in URL'
+    error = 'No restaurant id in URL';
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
-      }
-      fillRestaurantHTML();
-      callback(null, restaurant)
+    const dbPromise = IDB.createIndexDB();
+    dbPromise.then(db => {
+      if (!db) return;
+      const tx = db.transaction('restaurant').objectStore('restaurant');
+      return tx.get(Number(id)).then(restaurant => {
+        if (restaurant) { // Got the restaurant
+          self.restaurant = restaurant;
+          fillRestaurantHTML();
+          callback(null, restaurant);
+        } else { // Restaurant does not exist in the database
+          callback('Restaurant does not exist', null);
+        }
+      });
     });
   }
 };
