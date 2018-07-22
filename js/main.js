@@ -5,12 +5,17 @@ var map;
 var markers = [];
 
 
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 window.onload = () => {
   fetchNeighborhoods();
   fetchCuisines();
+  // Cache restaurants in IDB
+  cacheContentsInIDB();
+  // Render restaurants UI
+  updateRestaurants();
 };
 
 
@@ -87,7 +92,6 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
   // Set the title of google map iframe tag
   google.maps.event.addListenerOnce(map, 'idle', () => {
     document.getElementsByTagName('iframe')[0].title = 'Google Maps';
@@ -102,14 +106,22 @@ updateRestaurants = () => {
   const cuisine = document.getElementById('cuisines-select').value;
   const neighborhood = document.getElementById('neighborhoods-select').value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
+  const dbPromise = IDB.createIndexDB();
+  dbPromise.then(db => {
+    if (!db) return;
+    const tx = db.transaction('restaurant').objectStore('restaurant');
+    return tx.getAll().then(results => {
+      let restaurants = results;
+      if (cuisine !== 'all') { // filter by cuisine
+        restaurants = restaurants.filter(r => r.cuisine_type === cuisine);
+      }
+      if (neighborhood !== 'all') { // filter by neighborhood
+        restaurants = restaurants.filter(r => r.neighborhood === neighborhood);
+      }
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
-    }
-  })
+    })
+  });
 };
 
 
@@ -191,7 +203,60 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 };
 
 
+/**
+ * Toggle the google map.
+ */
 showMap = () => {
   let map = document.getElementById('map');
   map.style.display = (map.style.display === 'none') ? 'block' : 'none';
+};
+
+
+/**
+ * Put all restaurants in IDB.
+ */
+cacheContentsInIDB = () => {
+  // get the database promise object
+  const dbPromise = createIndexDB();
+  // Fetch all restaurants from api
+  DBHelper.fetchRestaurants((error, restaurants) => {
+    // Check if error exists
+    if (error) console.log(error);
+    // if not error
+    dbPromise.then(db => {
+      if (!db) return;
+      // Initialize the transaction
+      const tx = db.transaction('restaurant', 'readwrite');
+      // get the objectStore
+      const restStore = tx.objectStore('restaurant');
+      // iterate over the restaurants array
+      // And put restaurants into IDB
+      restaurants.forEach(restaurant => restStore.put(restaurant));
+    });
+  });
+};
+
+
+/**
+ * Put all restaurants in IDB.
+ */
+cacheContentsInIDB = () => {
+  // get the database promise object
+  const dbPromise = IDB.createIndexDB();
+  // Fetch all restaurants from api
+  DBHelper.fetchRestaurants((error, restaurants) => {
+    // Check if error exists
+    if (error) console.log(error);
+    // if not error
+    dbPromise.then(db => {
+      if (!db) return;
+      // Initialize the transaction
+      const tx = db.transaction('restaurant', 'readwrite');
+      // get the objectStore
+      const restStore = tx.objectStore('restaurant');
+      // iterate over the restaurants array
+      // And put restaurants into IDB
+      restaurants.forEach(restaurant => restStore.put(restaurant));
+    });
+  });
 };
