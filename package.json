@@ -1,0 +1,41 @@
+{
+  "name": "mws",
+  "version": "1.0.0",
+  "description": "pwa app",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp-clean-css": "^3.9.4",
+    "gulp-cli": "^2.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-delete-file": "^1.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-uglify": "^3.0.0",
+    "imagemin-pngquant": "^5.1.0",
+    "gulp-uglify-es": "^1.0.4",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.3.0",
+    "pump": "^3.0.0",
+    "uglify-es": "^3.3.9",
+    "idb": "^2.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "python -m SimpleHTTPServer 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imrshu/mws-restaurant-stage-1.git"
+  },
+  "keywords": [
+    "restaurant",
+    "reviews",
+    "web",
+    "app"
+  ],
+  "author": "Rishabh Verma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imrshu/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/imrshu/mws-restaurant-stage-1#readme"
+}
