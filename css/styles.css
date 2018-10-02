@@ -103,6 +103,16 @@ select:focus {
   color: #f5f271;
 }
 
+
+#webappstatus {
+  display: none;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+}
+
+
+
 /* ====================== Grid Layout ====================== */
 .row {
   width: 100%;
