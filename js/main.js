@@ -12,8 +12,9 @@ var markers = [];
 window.onload = () => {
   fetchNeighborhoods();
   fetchCuisines();
+  getContentsByIDB();
   // Cache restaurants in IDB
-  cacheContentsInIDB();
+  // cacheContentsInIDB();
   // Render restaurants UI
   updateRestaurants();
 };
@@ -169,6 +170,14 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+  if (restaurant.is_favorite === 'true') {
+    const isFav = document.createElement('p');
+    isFav.innerHTML = 'Favourite';
+    isFav.style.fontSize = '1em';
+    isFav.style.color = 'green';
+    li.append(isFav);
+  }
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);
@@ -251,12 +260,29 @@ cacheContentsInIDB = () => {
     dbPromise.then(db => {
       if (!db) return;
       // Initialize the transaction
-      const tx = db.transaction('restaurant', 'readwrite');
-      // get the objectStore
-      const restStore = tx.objectStore('restaurant');
+      const tx = db.transaction('restaurant', 'readwrite')
+      .objectStore('restaurant');
       // iterate over the restaurants array
       // And put restaurants into IDB
-      restaurants.forEach(restaurant => restStore.put(restaurant));
+      restaurants.forEach(restaurant => tx.put(restaurant));
+      updateRestaurants();
+    });
+  });
+};
+
+
+/**
+ * get all restaurants from IDB.
+ */
+getContentsByIDB = () => {
+  // get the database promise object
+  const dbPromise = IDB.createIndexDB();
+  dbPromise.then(db => {
+    if (!db) return;
+    const tx = db.transaction('restaurant').objectStore('restaurant');
+    return tx.getAll().then(results => {
+      if (results.length === 0) cacheContentsInIDB();
+      updateRestaurants();
     });
   });
 };
