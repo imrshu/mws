@@ -41,3 +41,29 @@ backToTop = () => {
   document.documentElement.scrollTop = 0;
   document.querySelectorAll('a')[0].focus();
 };
+
+
+/**
+  * Show status of
+  * web app
+  */
+webAppStatus = (color, txt) => {
+  const status = document.getElementById('webappstatus');
+  status.innerHTML = txt;
+  status.style.display = 'block';
+  status.style.width = '100%';
+  status.style.position = 'fixed';
+  status.style.bottom = '0';
+  status.style.zIndex = '9999';
+  status.style.backgroundColor = color;
+  // hide status div after 4 seconds
+  setTimeout(() => status.style.display = 'none', 4000);
+};
+
+
+/**
+  * Show online/offline
+  * status of user
+  */
+window.addEventListener('online', _ => webAppStatus('green', 'Back to online'));
+window.addEventListener('offline', _ => webAppStatus('black', 'Offline mode'));
