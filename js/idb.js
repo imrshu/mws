@@ -6,9 +6,9 @@ class IDB {
    */
   static createIndexDB() {
     return idb.open('RR', 1, (upgradeDb) => {
-      upgradeDb.createObjectStore('restaurant', {
-        keyPath: 'id'
-      })
+      upgradeDb.createObjectStore('restaurant', {keyPath: 'id'});
+      upgradeDb.createObjectStore('reviews', {keyPath: 'id'})
+      .createIndex('restaurant', 'restaurant_id');
     });
   }
 }
