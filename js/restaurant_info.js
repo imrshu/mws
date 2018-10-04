@@ -137,29 +137,142 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
 
 /**
+ * Get all reviews from the IDB.
+ * if and only if they exists
+ */
+saveReviewsInIDB = (results, dbPromise) => {
+  console.log('save ho rhe h bhai');
+  // resolve the IDB promise
+  dbPromise.then(db => {
+    const tx = db.transaction('reviews', 'readwrite').objectStore('reviews');
+    results.forEach(review => {
+      tx.put(review);
+      console.log('fir se get reviews from idb');
+    });
+  });
+};
+
+
+/**
+ * Get all reviews from the server.
+ * and save it to the IDB
+ */
+getReviewsFromServer = (dbPromise) => {
+  console.log('server wala function');
+  // get the DOM of reviews container
+  const container = document.getElementById('reviews-container');
+  // get the DOM of reviews section
+  const ul = document.getElementById('reviews-list');
+  // get the current restaurant id
+  const id = getParameterByName('id');
+  // restaurant reviews URI
+  const review_url = `http://localhost:1337/reviews/?restaurant_id=${id}`;
+  // get all restaurant reviews
+  fetch(review_url, {
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'same-origin'
+  }).then(reviews => {
+    if (!reviews) {
+      const noReviews = document.createElement('p');
+      noReviews.innerHTML = 'No reviews yet!';
+      container.appendChild(noReviews);
+      return;
+    }
+    // parse the results into JSON
+    reviews.json().then(results => {
+      saveReviewsInIDB(results, dbPromise);
+      results.forEach(review => ul.prepend(createReviewHTML(review)));
+    });
+  });
+};
+
+/**
+ * Get all reviews from the IDB.
+ * if and only if they exists
+ */
+getReviewsFromIDB = () => {
+  console.log('bhai checking ho rhi h');
+  // get the DOM of the reviews section
+  const ul = document.getElementById('reviews-list');
+  // get the current restaurant id
+  const id = getParameterByName('id');
+  // get the IDB instance
+  const dbPromise = IDB.createIndexDB();
+  // resolve the IDB promise
+  dbPromise.then(db => {
+    if (!db) return;
+    const tx = db.transaction('reviews').objectStore('reviews').index('restaurant');
+    return tx.getAll(Number(id))
+    .then(results => {
+      if (results.length === 0) getReviewsFromServer(dbPromise);
+      results.forEach(review => ul.prepend(createReviewHTML(review)));
+    });
+  });
+};
+
+
+/**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = () => {
+  console.log('filling reviews function');
   const container = document.getElementById('reviews-container');
   // Sets the tabIndex of reviews container
   container.tabIndex = '0';
   // Sets the aria of reviews container
   container.setAttribute('aria-label',
   `Reviews about the ${self.restaurant.name} restaurant`);
+  console.log('call get reviews from idb');
+  // get reviews from IDB
+  getReviewsFromIDB();
   // Reviews container header
   const container_header = document.getElementById('reviews-container-header');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container_header.appendChild(title);
+};
 
-  if (!reviews) {
-    const noReviews = document.createElement('p');
-    noReviews.innerHTML = 'No reviews yet!';
-    container.appendChild(noReviews);
-    return;
-  }
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => ul.appendChild(createReviewHTML(review)));
+
+/**
+ * delete review from server
+ */
+delReviewFromServer = (id) => {
+  console.log('aru delete');
+  fetch(`http://localhost:1337/reviews/${id}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    credentials: 'same-origin'
+  })
+  .then(success => {
+    webAppStatus('green', `review with ${id} deleted`);
+    success.json().then(r=>console.log(r));
+  })
+  .catch(err => webAppStatus('red', `Server encountered an problem`));
+};
+
+
+/**
+ * delete review from the IDB.
+ */
+delReviewFromIDB = (id) => {
+  // get the IDB instance
+  const dbPromise = IDB.createIndexDB();
+  // resolve the IDB promise
+  dbPromise.then(db => {
+    if (!db) return;
+    db.transaction('reviews', 'readwrite')
+    .objectStore('reviews')
+    .delete(Number(id))
+    .then(succ => {
+      webAppStatus('green', `review with ${id} deleted`);
+      const review = document.getElementById(id);
+      review.parentNode.removeChild(review);
+      delReviewFromServer(id);
+      // when user comes online again delete review from the server
+      // window.addEventListener('online', _ => delReviewFromServer(id));
+    });
+  });
 };
 
 
@@ -169,6 +282,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.tabIndex = '0';
+  li.id = `${review.id}`;
 
   const name = document.createElement('p');
   name.innerHTML = review.name;
@@ -176,8 +290,8 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
-  date.setAttribute('aria-label', `On Date ${reviewsDate(review.date)}`);
+  date.innerHTML = `${reviewsDate(review.createdAt)}`;
+  date.setAttribute('aria-label', `On Date ${reviewsDate(review.createdAt)}`);
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -190,6 +304,18 @@ createReviewHTML = (review) => {
   comments.innerHTML = review.comments;
   comments.setAttribute('aria-label', `${review.name} Said ${review.comments}`);
   li.appendChild(comments);
+
+  const delReview = document.createElement('button');
+  delReview.innerHTML = 'Remove Review';
+  delReview.style.border = 'none';
+  delReview.style.padding = '5px 5px';
+  delReview.style.backgroundColor = 'green';
+  delReview.style.color = 'white';
+  delReview.setAttribute('aria-label',
+   `Delete this review from ${review.name}`);
+  // listener for removing a review
+  delReview.addEventListener('click', _ => delReviewFromIDB(review.id));
+  li.appendChild(delReview);
 
   return li;
 };
@@ -228,8 +354,11 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
  * Reviews Date Splitting For Accessibility.
  */
 reviewsDate = (review_date) => {
-  let date = review_date.split(',');
-  return date.join(' ');
+  if (typeof(review_date) !== Number){
+    const date = new Date(review_date).getTime();
+    return new Date(Number(date)).toDateString();
+  }
+  return new Date(Number(review_date)).toDateString();
 };
 
 
@@ -299,4 +428,225 @@ createstaticMapImage = (restaurant) => {
   };
   // Append the image to the map container
   container.append(img);
+};
+
+
+/**
+ * Mark the restaurant as
+ * favourite.
+ */
+markRestFav = () => {
+  const localhost = `http://localhost:1337`;
+  const id = getParameterByName('id');
+  const getRestById = `${localhost}/restaurants/${id}`;
+
+  fetch(getRestById).then(restaurant => {
+    restaurant.json().then(rest => {
+      (rest.is_favorite.toString() === 'false') ?
+      toggleFav(localhost, id, 'true') :
+      toggleFav(localhost, id, 'false');
+    });
+  });
+};
+
+
+/**
+ * Toggle restaurant
+ * is_favourite property
+ * in IDB
+ */
+toggleIsFavInIDB = (id, state) => {
+  const dbPromise = IDB.createIndexDB();
+  dbPromise.then(db => {
+    db.transaction('restaurant')
+    .objectStore('restaurant')
+    .get(Number(id))
+    .then(rest => {
+      rest.is_favorite = state;
+      db.transaction('restaurant', 'readwrite')
+      .objectStore('restaurant').put(rest);
+      console.log('hogya bhai');
+    });
+  });
+};
+
+
+/**
+ * Toggle favourite for
+ * favourite.
+ */
+toggleFav = (url, id, state) => {
+  const markFavURL = `${url}/restaurants/${id}/?is_favorite=${state}`;
+
+  fetch(markFavURL, {
+    method: 'PUT',
+    mode: 'cors',
+    credentials: 'same-origin'
+  })
+  .then(success => {
+    toggleIsFavInIDB(id, state);
+    webAppStatus('green',
+    `Restaurant ${state = (state === 'true') ? 'marked' : 'unmarked'} as favourite`);
+ })
+  .catch(err => webAppStatus('red', 'server problem'));
+};
+
+
+/**
+ * show Feedback Form
+ */
+showFeedbackForm = () => document.getElementById('reviews-form-container').style.display = 'block'
+
+
+/**
+ * Add form data
+ * review to DOM
+ */
+addReviewHTML = (review) => {
+  const ul = document.getElementById('reviews-list');
+
+  const li = document.createElement('li');
+  li.tabIndex = '0';
+
+  const name = document.createElement('p');
+  name.innerHTML = review.name;
+  name.setAttribute('aria-label', `Review By The Customer ${review.name}`);
+  li.appendChild(name);
+
+  const date = document.createElement('p');
+  date.innerHTML = `${reviewsDate(review.createdAt)}`;
+  date.setAttribute('aria-label', `On Date ${reviewsDate(review.createdAt)}`);
+  li.appendChild(date);
+
+  const rating = document.createElement('p');
+  rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute('aria-label',
+    `${review.name} Gives ${review.rating} Star Rating To This Restaurant`);
+  li.appendChild(rating);
+
+  const comments = document.createElement('p');
+  comments.innerHTML = review.comments;
+  comments.setAttribute('aria-label', `${review.name} Said ${review.comments}`);
+  li.appendChild(comments);
+
+  if (navigator.onLine) {
+    li.id = review.id.toString();
+    const delReview = document.createElement('button');
+    delReview.innerHTML = 'Remove Review';
+    delReview.style.border = 'none';
+    delReview.style.padding = '5px 5px';
+    delReview.style.backgroundColor = 'green';
+    delReview.style.color = 'white';
+    delReview.setAttribute('aria-label',
+     `Delete this review from ${review.name}`);
+    // listener for removing a review
+    delReview.addEventListener('click', _ => delReviewFromIDB(review.id));
+    li.appendChild(delReview);
+  } else {
+    li.id = 'off-review';
+    li.style.border = '1px solid red';
+  }
+
+  ul.prepend(li);
+};
+
+
+/**
+ * send form data
+ * to the server
+ */
+sendDataToServer = (body, url) => {
+  console.log('bhai server wala function');
+  console.log(body);
+  // fire off ajax request
+  fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8'
+    },
+    body: JSON.stringify(body)
+  })
+  .then(success => {
+    console.log('save success');
+    success.json().then(result => {
+      const dbPromise = IDB.createIndexDB();
+      dbPromise.then(db => {
+        db.transaction('reviews', 'readwrite')
+        .objectStore('reviews').put(result);
+      });
+      console.log('de');
+      console.log(result);
+      // add review HTML
+      addReviewHTML(result);
+      // remove the offline review from DOM
+      const review = document.getElementById('off-review');
+      review.parentNode.removeChild(review);
+    });
+    // show the status
+    webAppStatus('green', 'Review added successfully');
+    // getReviewsFromIDB();
+    // getReviewsFromServer(IDB.createIndexDB());
+    // reload the page
+    // window.location.reload();
+  })
+  .catch(err => webAppStatus('red', 'Server encountered an problem'));
+};
+
+
+/**
+ * Save form data
+ * locally in browser
+ */
+saveDataLocally = (body, url) => {
+  // stores the data in localstorage
+  localStorage.setItem('review', JSON.stringify(body));
+  // render review UI
+  addReviewHTML(body);
+  // when connection established again
+  window.addEventListener('online', () => {
+    // get item from localstorage
+    const review = JSON.parse(localStorage.getItem('review'));
+    // send data back to the server
+    sendDataToServer(review, url);
+    // delete item from localstorage
+    localStorage.removeItem('review');
+  });
+};
+
+
+/**
+ * add the review
+ * according to connection
+ */
+addReview = (body, url) => {
+  // check whether user is offline or online
+  if (!navigator.onLine) saveDataLocally(body, url);
+  else sendDataToServer(body, url);
+};
+
+
+/**
+ * Feedback Form
+ * Ajax request
+ * to server
+ */
+feedbackForm = () => {
+  event.preventDefault();
+  // Create a new restaurant review URI
+  const url = `http://localhost:1337/reviews/`;
+  // create json body for post method
+  let body = {};
+  body['restaurant_id'] = Number(getParameterByName('id'));
+  body['name'] = document.getElementById('cus_name').value;
+  body['rating'] = Number(document.getElementById('rating').value);
+  body['comments'] = document.getElementById('comment').value;
+  body['createdAt'] = new Date();
+  // add the review
+  addReview(body, url);
+  // reset the form
+  document.getElementById('review-form').reset();
+  return false;
 };
