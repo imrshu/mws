@@ -146,7 +146,7 @@
       color: #7f4d11;
       font-size: 2em;
       font-weight: 300;
-      text-align: center;
+      margin: 0;
     }
     #reviews-list {
       list-style: none;
@@ -154,33 +154,107 @@
       padding: 0;
     }
     #reviews-list li {
-      background-color: #fff;
+      margin: 5px;
+      padding: 25px 25px;
+      text-align: left;
       border: 1px solid #ccc;
       box-shadow: 1px 4px 5px #c3baba;
       border-radius: 10px 10px 10px 10px;
       font-family: Arial,sans-serif;
-      margin: 5px;
-      min-height: 350px;
-      padding: 25px 25px;
-      text-align: left;
-      width: 270px;
       flex-grow: 1;
+      background-color: #fff;
     }
     #reviews-list li:focus {
+      outline: 2px solid yellow;
+    }
+    #reviews-list li button:focus,
+    #reviews-list li button:hover {
       outline: 2px solid yellow;
     }
     #reviews-list li p {
       font-size: 1.1em;
       margin: 0 0 10px;
     }
-    .inside nav h1 {
-      text-align: center;
+    #reviews-form-container {
+      display: none;
+      width: 100%;
+      background-color: #fff;
+    }
+    #review-form input[type="text"] {
+      width: 100%;
+      padding: 5px 5px;
+    }
+    #review-form input[type="text"]:focus {
+      outline: 2px solid yellow;
+    }
+    #review-form select {
+      width: 100%;
+      padding: 5px 5px;
+    }
+    #review-form textarea {
+      width: 100%;
+      resize: none;
+      padding: 5px 5px;
+    }
+    #review-form textarea:focus {
+      outline: 2px solid yellow;
+    }
+    #review-form fieldset {
+      padding: 6px 6px;
+      border: none;
+    }
+    #review-form button {
+      padding: 5px 5px;
+      border: none;
+      font-size: 1em;
+      background-color: blue;
+      color: white;
+    }
+    #review-form button:hover,
+    #review-form button:focus {
+      outline: 1px solid blue;
+      background-color: white;
+      color: blue;
+      cursor: pointer;
     }
     .inside #static-map:hover {
       cursor: pointer;
     }
     .inside #static-map:focus {
       outline: 1px solid yellow;
+    }
+    .toggle-fav {
+      float: right;
+      padding: 5px 5px;
+      background-color: transparent;
+      border: none;
+    }
+    .toggle-fav:hover,
+    .toggle-fav:focus {
+      outline: 1px solid yellow;
+      cursor: pointer;
+    }
+    .feeback-toggle-btn {
+      padding: 5px 5px;
+      border: none;
+      font-size: 1em;
+      background-color: blue;
+      color: white;
+    }
+    .feeback-toggle-btn:focus,
+    .feeback-toggle-btn:hover {
+      outline: 2px solid yellow;
+      cursor: pointer;
+    }
+    .toggle-reviewform {
+      padding: 5px 5px;
+      border: none;
+      background-color: transparent;
+    }
+    .toggle-reviewform:hover,
+    .toggle-reviewform:focus {
+      outline: 1px solid yellow;
+      cursor: pointer;
     }
     /* ====================== Media Queries ====================== */
     @media screen and (min-width: 600px) {
@@ -212,6 +286,9 @@
       .inside #footer {
         width: 50%;
       }
+      .inside #reviews-form-container {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -222,8 +299,18 @@
     <!-- Nav -->
     <nav>
       <div class="row">
-        <div class="col-12">
+        <div class="col-11">
           <h1><a href="/">Restaurant Reviews</a></h1>
+        </div>
+        <div class="col-1">
+          <button class="toggle-fav" onclick="markRestFav()"
+          aria-label="Toggle Mark restaurant as favourite">
+            <img class="progressive__img progressive--not-loaded"
+             src="/img/dist/placeholder.png"
+             data-progressive="/img/favourite.webp"
+             style="height: 25px;width: 40px;border-radius: 50%;"
+             alt="Mark restaurant as favourite">
+          </button>
         </div>
       </div>
     </nav> <!-- // Nav Ends -->
@@ -255,10 +342,45 @@
       </table>
     </section> <!-- // Restaurant Info Ends -->
 
+
     <!-- Reviews -->
     <section id="reviews-container">
       <div class="row">
         <div class="col-12" id="reviews-container-header"></div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button onclick="showFeedbackForm()"
+           class="feeback-toggle-btn">Feedback</button>
+        </div>
+      </div><br>
+      <div class="row" id="reviews-form-container">
+        <div class="col-12">
+          <form id="review-form">
+            <fieldset>
+              <legend>Feedback Form</legend>
+              <label for="cus_name">Enter your name</label>
+              <input type="text" id="cus_name"
+               aria-label="Enter your name" placeholder="Your name"
+               name="name" required>
+              <label for="rating">Give rating</label>
+              <select id="rating"
+              aria-label="Give your rating"
+              name="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <label for="comment">Comment</label>
+              <textarea rows="5" cols="10" id="comment"
+              placeholder="write comment...." name="comments"
+              aria-label="Write your feeback comment" required></textarea>
+              <button onclick="feedbackForm()">Submit</button>
+            </fieldset>
+          </form>
+        </div>
       </div>
       <ul class="row" id="reviews-list"></ul>
     </section> <!-- // Reviews Ends -->
@@ -272,6 +394,13 @@
       </div>
     </div>
   </footer> <!-- // Footer Ends -->
+
+  <!-- User online status -->
+  <div class="row">
+    <div class="col-12">
+      <h4 id="webappstatus">hi</h4>
+    </div>
+  </div>
 
   <!-- Back to top -->
   <button onclick="backToTop();" id="back-to-top"
