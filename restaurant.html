@@ -356,7 +356,7 @@
       </div><br>
       <div class="row" id="reviews-form-container">
         <div class="col-12">
-          <form id="review-form">
+          <form id="review-form" onsubmit="feedbackForm()">
             <fieldset>
               <legend>Feedback Form</legend>
               <label for="cus_name">Enter your name</label>
@@ -377,7 +377,7 @@
               <textarea rows="5" cols="10" id="comment"
               placeholder="write comment...." name="comments"
               aria-label="Write your feeback comment" required></textarea>
-              <button onclick="feedbackForm()">Submit</button>
+              <button type="submit">Submit</button>
             </fieldset>
           </form>
         </div>
