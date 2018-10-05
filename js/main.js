@@ -16,7 +16,7 @@ window.onload = () => {
   // Cache restaurants in IDB
   // cacheContentsInIDB();
   // Render restaurants UI
-  updateRestaurants();
+  // updateRestaurants();
 };
 
 
