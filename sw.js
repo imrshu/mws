@@ -15,7 +15,6 @@ self.addEventListener('install', (event) => {
                 'js/dist/main.min.js',
                 'js/dist/restaurant_info.min.js',
                 'img/dist/placeholder.png',
-                'img/dist/icon_map.png',
                 'img/dist/webappicon1.png',
                 'img/dist/webappicon2.png',
                 'img/1.webp',
@@ -27,7 +26,9 @@ self.addEventListener('install', (event) => {
                 'img/7.webp',
                 'img/8.webp',
                 'img/9.webp',
-                'img/10.webp'
+                'img/10.webp',
+                'img/favourite.webp',
+                'img/map_icon.webp'
             ]);
         })
     );
