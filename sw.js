@@ -71,7 +71,7 @@ self.addEventListener('fetch', (event) => {
 
   // respond to other request urls
   event.respondWith(
-      caches.match(event.request).then((resp) => {
+      caches.match(event.request, {'ignoreSearch': true}).then((resp) => {
           // Return cache response if matches
           // else fetch request from network
           // and put it in cache.
